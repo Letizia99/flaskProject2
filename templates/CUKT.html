@@ -1,0 +1,52 @@
+{% extends 'layout.html' %}
+
+{% block cukt %}
+<div class="container">
+                <div class="text-center">
+                    <h2 class="section-heading text-uppercase">What do you want to do</h2>
+                    <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-sm-6 mb-4">
+                        <div class="portfolio-item">
+                            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal1">
+                                <div class="portfolio-hover">
+                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                </div>
+                                <img class="img-fluid" src="{{url_for('static', filename='template/assets/img/portfolio/01-thumbnail.jpg')}}" alt="" />
+                            </a>
+                            <div class="portfolio-caption">
+                                <div class="portfolio-caption-heading">Share a meal</div>
+                                <div class="portfolio-caption-subheading text-muted">Sell or donate your best dishes</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6 mb-4">
+                        <div class="portfolio-item">
+                            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal2">
+                                <div class="portfolio-hover">
+                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                </div>
+                                <img class="img-fluid" src="{{url_for('static', filename='template/assets/img/portfolio/02-thumbnail.jpg')}}" alt="" />
+                            </a>
+                            <div class="portfolio-caption">
+                                <div class="portfolio-caption-heading">Create a social eating event</div>
+                                <div class="portfolio-caption-subheading text-muted">Meet new people and tease their taste buds</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-sm-6 mb-4">
+                        <div class="portfolio-item">
+                            <a class="portfolio-link" data-toggle="modal" href="#portfolioModal3">
+                                <div class="portfolio-hover">
+                                    <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
+                                </div>
+                                <img class="img-fluid" src="{{url_for('static', filename='template/assets/img/portfolio/03-thumbnail.jpg')}}" alt="" />
+                            </a>
+                            <div class="portfolio-caption">
+                                <div class="portfolio-caption-heading">Search for a meal or an event</div>
+                                <div class="portfolio-caption-subheading text-muted">Experience some traditional homemade food</div>
+                            </div>
+                        </div>
+                    </div>
+ {% endblock cukt %}
