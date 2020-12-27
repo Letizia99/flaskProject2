@@ -6,7 +6,8 @@
     <div class="row">
       <div class="col-lg-8 mb-4">
         <h3>Sign Up</h3>
-        <form method="post" >
+        <form method="post">
+            {{ registerForm.hidden_tag() }}
           <div class="control-group form-group">
             <div class="controls">
               {{ registerForm.name.label  }}
@@ -19,9 +20,9 @@
           </div>
           <div class="control-group form-group">
             <div class="controls">
-               {{ registerForm.familyname.label  }}
-                {{ registerForm.familyname(class='form-control')  }}
-                {% for error in registerForm.familyname.errors %}
+               {{ registerForm.surname.label  }}
+                {{ registerForm.surname(class='form-control')  }}
+                {% for error in registerForm.surname.errors %}
                     <div class="alert alert-danger">{{ error }}</div>
                 {% endfor  %}
             </div>
@@ -56,8 +57,8 @@
         <div class="control-group form-group">
             <div class="controls">
                  {{ registerForm.password_con.label }}
-                {{ registerForm.password(class='form-control') }}
-                {% for error in registerForm.password.errors %}
+                {{ registerForm.password_con(class='form-control') }}
+                {% for error in registerForm.password_con.errors %}
                     <div class="alert alert-danger">{{ error }}</div>
                 {% endfor  %}
             </div>
@@ -65,7 +66,7 @@
           <div id="success"></div>
           <!-- For success/fail messages -->
         {{ registerForm.submit(class='btn btn-primary') }}
-            {{ registerForm.hidden_tag() }}
+
         </form>
       </div>
 
