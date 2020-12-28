@@ -22,8 +22,8 @@ class User(db.Model):
     nationality=db.Column(db.String(200),nullable=False)
     eventscreated=db.relationship('SocialEatingEvents', backref='user')
     mealsshared=db.relationship('SharedMeals', backref='user')
-    eventsjoined=db.relationship('JoinedEvents', backref='user')
-    mealspurchased=db.relationship('PurchasedMeals', backref='user')
+    eventsjoined=db.relationship('SocialEatingEvents', backref='events')
+    mealspurchased=db.relationship('SharedMeals', backref='meals')
     followed = db.relationship('Follow', foreign_keys=[Follow.follower_id],backref=db.backref('follower', lazy='joined'),lazy='dynamic',cascade='all, delete-orphan')
     followers = db.relationship('Follow', foreign_keys=[Follow.followed_id],backref=db.backref('followed', lazy='joined'),lazy='dynamic',cascade='all, delete-orphan')
 
@@ -59,8 +59,13 @@ class SocialEatingEvents(db.Model):
     location=db.Column(db.String, nullable=False)
     numpeople=db.Column(db.Integer, nullable=False)
     info=db.Column(db.String, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    joined=db.relationship('JoinedEvents', backref='see')
+    creator = db.Column(db.Integer, db.ForeignKey('user.id'))
+    partecipants=db.relationship('Users', backref='partecipants')
+    expired=db.Column(db.Boolean, nullable=False, default=False)
+
+#class partecipantlist
+  # idevento
+   # user
 
 
 class SharedMeals(db.Model):
@@ -70,21 +75,10 @@ class SharedMeals(db.Model):
     date = db.Column(db.DateTime, nullable=False)
     location = db.Column(db.String, nullable=False)
     info = db.Column(db.String, nullable=False)
-    user_id = db.Column(db.Integer,db.ForeignKey('user.id'))
-    shared=db.relationship('PurchasedMeals', backref='mealsshared')
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    expired=db.Column(db.Boolean, nullable=False, default=False)
+    buyer=db.relationship('Users', backref='buyer')
 
-
-class JoinedEvents(db.Model):
-    __tablename__ = 'joinedevents'
-    usercr_id = db.Column(db.Integer, db.ForeignKey('user.id'),primary_key=True)
-    userpa_id = db.Column(db.Integer,db.ForeignKey('user.id'),primary_key=True)
-    see_id = db.Column(db.Integer, db.ForeignKey('see.id'),primary_key=True)
-
-class PurchasedMeals(db.Model):
-    __tablename__ = 'mealspurchased'
-    usercr_id = db.Column(db.Integer, db.ForeignKey('user.id'),primary_key=True)
-    userpa_id = db.Column(db.Integer, db.ForeignKey('user.id'),primary_key=True)
-    meal_id= db.Column(db.Integer, db.ForeignKey('mealsshared.id'),primary_key=True)
 
 class Chat(db.Model):
     __tablename__ = 'chat'
