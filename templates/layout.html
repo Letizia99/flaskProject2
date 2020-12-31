@@ -29,8 +29,10 @@
 
 {% block content %}
 {% endblock content %}
-{% block cukt %}
-{% endblock cukt %}
+{% block homepage %}
+{% endblock homepage %}
+{% block profile %}
+{% endblock profile %}
 
   </div>
   <!-- /.container -->
@@ -38,6 +40,7 @@
   <!-- Footer -->
   <footer class="py-5 bg-dark">
     <div class="container">
+        <span class="d-none d-lg-block"><img class="img-fluid img-profile rounded-circle mx-auto mb-2" src="{{ url_for('static',filename='search/assets/img/portfolio/logo.jpeg') }}" alt="" /></span>
       <p class="m-0 text-center text-white">Copyright &copy; Your Website 2020</p>
     </div>
     <!-- /.container -->
