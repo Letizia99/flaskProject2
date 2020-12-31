@@ -1,31 +1,36 @@
-from run import db
+from run import db, app
 from datetime import datetime
+from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user, current_user
 
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
 
 class Follow(db.Model):
     __tablename__ = 'follows'
-    follower_id = db.Column(db.Integer, db.ForeignKey('user.id'),primary_key=True)
-    followed_id = db.Column(db.Integer, db.ForeignKey('user.id'),primary_key=True)
+    follower_id = db.Column(db.Integer, db.ForeignKey('users.id'),primary_key=True)
+    followed_id = db.Column(db.Integer, db.ForeignKey('users.id'),primary_key=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
 
     def filter_by(self, followed_id, follower_id):
         pass
 
 
-class User(db.Model):
-    __tablename__ = 'user'
+class User(UserMixin, db.Model):
+    __tablename__ = 'users'
     id=db.Column(db.Integer,primary_key=True)
-    username=db.Column(db.String(50),unique=True,nullable=False)
     name=db.Column(db.String(50),nullable=False)
     surname=db.Column(db.String(50),nullable=False)
+    nationality = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(50), unique=True, nullable=False)
     password=db.Column(db.String(50),nullable=False)
-    nationality=db.Column(db.String(200),nullable=False)
-    eventscreated=db.relationship('SocialEatingEvents', backref='user')
+    eventscreated=db.relationship('SocialEatingEvent', backref='user')
     mealsshared=db.relationship('SharedMeals', backref='user')
-    eventsjoined=db.relationship('SocialEatingEvents', backref='events')
+    eventsjoined=db.relationship('SocialEatingEvent', backref='events')
     mealspurchased=db.relationship('SharedMeals', backref='meals')
     followed = db.relationship('Follow', foreign_keys=[Follow.follower_id],backref=db.backref('follower', lazy='joined'),lazy='dynamic',cascade='all, delete-orphan')
     followers = db.relationship('Follow', foreign_keys=[Follow.followed_id],backref=db.backref('followed', lazy='joined'),lazy='dynamic',cascade='all, delete-orphan')
+
 
     def __repr__(self):
         return "<User %r>" % self.name
@@ -50,22 +55,26 @@ class User(db.Model):
             return False
         return self.followers.filter_by(follower_id=user.id).first() is not None
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
 
-class SocialEatingEvents(db.Model):
+partecipants=db.Table('partecipants', db.Column('see_id', db.Integer, db.ForeignKey('see.id'), primary_key=True),
+                      db.Column('user_id', db.Integer, db.ForeignKey('users.id'), primary_key=True))
+
+class SocialEatingEvent(db.Model):
     __tablename__ = 'see'
     id=db.Column(db.Integer,primary_key=True)
     title = db.Column(db.String, nullable=False)
+    time = db.Column(db.String, nullable=False)
     date=db.Column(db.DateTime, nullable=False)
+    price = db.Column (db.Integer, nullable=False)
+    numpeople = db.Column(db.Integer, nullable=False)
     location=db.Column(db.String, nullable=False)
-    numpeople=db.Column(db.Integer, nullable=False)
-    info=db.Column(db.String, nullable=False)
-    creator = db.Column(db.Integer, db.ForeignKey('user.id'))
-    partecipants=db.relationship('Users', backref='partecipants')
+    description=db.Column(db.String, nullable=False)
+    creator = db.Column(db.Integer, db.ForeignKey('users.id'))
+    partecipants=db.relationship('User', secondary=partecipants, lazy='subquery', backref=db.backref('see', lazy=True))
     expired=db.Column(db.Boolean, nullable=False, default=False)
-
-#class partecipantlist
-  # idevento
-   # user
 
 
 class SharedMeals(db.Model):
@@ -75,9 +84,9 @@ class SharedMeals(db.Model):
     date = db.Column(db.DateTime, nullable=False)
     location = db.Column(db.String, nullable=False)
     info = db.Column(db.String, nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     expired=db.Column(db.Boolean, nullable=False, default=False)
-    buyer=db.relationship('Users', backref='buyer')
+    buyer=db.relationship('User', backref='buyer')
 
 
 class Chat(db.Model):
