@@ -1,0 +1,74 @@
+{% extends 'templatehtml.html' %}
+
+{% block register %}
+        <!-- Contact Form -->
+    <!-- In order to set the email address and subject line for the contact form go to the bin/contact_me.php file. -->
+    <div class="row">
+      <div class="col-lg-8 mb-4">
+        <h3>Sign Up</h3>
+        <form method="post">
+            {{ registerForm.hidden_tag() }}
+          <div class="control-group form-group">
+            <div class="controls">
+              {{ registerForm.name.label  }}
+                {{ registerForm.name(class='form-control')  }}
+                {% for error in registerForm.name.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor  %}
+                <p class="help-block"></p>
+            </div>
+          </div>
+          <div class="control-group form-group">
+            <div class="controls">
+               {{ registerForm.surname.label  }}
+                {{ registerForm.surname(class='form-control')  }}
+                {% for error in registerForm.surname.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor  %}
+            </div>
+          </div>
+          <div class="control-group form-group">
+            <div class="controls">
+              {{ registerForm.email.label  }}
+                {{ registerForm.email(class='form-control') }}
+                {% for error in registerForm.email.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor  %}
+            </div>
+          </div>
+        <div class="control-group form-group">
+            <div class="controls">
+               {{ registerForm.nationality.label  }}
+                {{ registerForm.nationality(class='form-control')  }}
+                {% for error in registerForm.nationality.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor  %}
+            </div>
+          </div>
+          <div class="control-group form-group">
+            <div class="controls">
+                 {{ registerForm.password.label }}
+                {{ registerForm.password(class='form-control') }}
+                {% for error in registerForm.password.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor  %}
+            </div>
+          </div>
+        <div class="control-group form-group">
+            <div class="controls">
+                 {{ registerForm.password_con.label }}
+                {{ registerForm.password_con(class='form-control') }}
+                {% for error in registerForm.password_con.errors %}
+                    <div class="alert alert-danger">{{ error }}</div>
+                {% endfor  %}
+            </div>
+          </div>
+          <div id="success"></div>
+          <!-- For success/fail messages -->
+        {{ registerForm.submit(class='btn btn-primary') }}
+
+        </form>
+      </div>
+    </div>
+    <!-- /.row -->
+{% endblock register %}

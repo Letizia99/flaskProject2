@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Booking</title>
+
+   <!-- Font Icon -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='create/fonts/material-icon/css/material-design-iconic-font.min.css') }}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='create/css/style.css') }}">
+</head>
+<body>
+
+    <div class="main">
+
+         <div class="container">
+            <div class="booking-content">
+                <div class="booking-image">
+                    <img class="booking-img" src="{{ url_for('static',filename='searchmeal/italianfood.png') }}" alt="Booking Image">
+                </div>
+
+                <div class="booking-form">
+                <form method="post">
+                        <h2>Search a meal!</h2>
+
+                        <div class="form-group">
+                            <div class="select-list">
+                                <select name="location" id="location" required>
+                                    <option value="">Location</option>
+                                    <option value="Loc1">Torino</option>
+                                    <option value="Loc2">Milano</option>
+                                    <option value="Loc3">Firenze</option>
+                                    <option value="Loc4">Napoli</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="select-list">
+                                <select name="menu" id="menu" required>
+                                    <option value="">Are you: </option>
+                                    <option value="Loc1">Vegetarian</option>
+                                    <option value="Loc2">Vegan</option>
+                                    <option value="Loc3">Neither</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    {{ smealForm.csrt_token }}
+                                    {{ smealForm.date.label }} {{smealForm.date(class='datepicker')}} {{smealForm.hidden_tag()}}
+                                </div>
+                            </div>
+                        <div/>
+                        <br>
+                        <br>
+
+                        <div class="form-submit">
+                            {{ smealForm.submit(class='submit') }}
+                            {{ smealForm.hidden_tag() }}
+                        </div>
+                </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- JS -->
+    <script src="{{ url_for('static',filename='create/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='create/js/main.js') }}"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

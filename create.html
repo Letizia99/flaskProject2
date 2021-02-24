@@ -1,0 +1,107 @@
+{% extends 'layout.html' %}
+{% block create %}
+
+   <!-- Font Icon -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='create/fonts/material-icon/css/material-design-iconic-font.min.css') }}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='create/css/style.css') }}">
+
+<body>
+    <div class="main">
+        <div class="container">
+            <div class="booking-content">
+                <div class="booking-image">
+                    <img class="booking-img" src="{{ url_for('static',filename='create/images/createEv.jpg') }}" alt="Booking Image">
+                    <br>
+                    <img class="booking-img" src="{{ url_for('static',filename='create/images/cena.jpg') }}" alt="Booking Image">
+                </div>
+                <div class="booking-form">
+                    <form method="post">
+                        <h2>Organize your social event!</h2>
+                            {{ createForm.hidden_tag() }}
+                        <div class="form-group form-input">
+                            <div class="controls">
+                            <label for="eventname" class="form-label">Event name</label>
+                            {{ createForm.title(class='form-group form-input') }}
+                                {% for error in createForm.title.errors %}
+                                    <div class="alert alert-danger"> {{ error }} </div>
+                                {% endfor  %}
+                            </div>
+                        </div>
+                        <div class="form-group form-input">
+                            <div class="controls">
+                            <label for="price" class="form-label">Price per person</label>
+                            {{ createForm.price(class='form-group form-input') }}
+                                {% for error in createForm.price.errors %}
+                                    <div class="alert alert-danger"> {{ error }} </div>
+                                {% endfor  %}
+                            </div>
+                        </div>
+                        <div class="form-group form-input">
+                            <div class="controls">
+                            <label for="location" class="form-label">Location</label>
+                            {{ createForm.location(class='form-group form-input') }}
+                                {% for error in createForm.location.errors %}
+                                    <div class="alert alert-danger"> {{ error }} </div>
+                                {% endfor  %}
+                            </div>
+                        </div>
+                        <div class="form-group form-input">
+                            <div class="controls">
+                            <label for="menu" class="form-label">Menu</label>
+                            {{ createForm.menu(class='form-group form-input') }}
+                                {% for error in createForm.menu.errors %}
+                                    <div class="alert alert-danger"> {{ error }} </div>
+                                {% endfor  %}
+                            </div>
+                        </div>
+                        <div class="form-group form-input">
+                            <div class="controls">
+                            <label for="partecipants" class="form-label">How many people do you want to invite?</label>
+                            <br>
+                            {{ createForm.partecipants(class='form-group form-input') }}
+                                {% for error in createForm.partecipants.errors %}
+                                    <div class="alert alert-danger"> {{ error }} </div>
+                                {% endfor  %}
+                            </div>
+                        </div>
+                        <div class="form-group form-input">
+                            <div class="controls">
+                            <label for="timetable" class="form-label">Time of your event</label>
+                            {{ createForm.timetable(class='form-group form-input') }}
+                                {% for error in createForm.timetable.errors %}
+                                    <div class="alert alert-danger"> {{ error }} </div>
+                                {% endfor  %}
+                            </div>
+                        </div>
+                       <br>
+                        <div class="form-group">
+                            <div class="col-2">
+                                <div class="input-group">
+                                    {{ createForm.csrt_token }}
+                                    {{ createForm.date.label }}
+                                    {{createForm.date(class='datepicker')}}
+                                </div>
+                            </div>
+                        <div/>
+                        <br>
+                        <div class="form-group">
+                            <label>Make a presentation of yourself and a description of your event </label>
+                            {{createForm.description(class='form-control')}}
+                        </div>
+                        <br>
+                            <div id="success"></div>
+                            <!-- For success/fail messages -->
+                            {{ createForm.submit(class='submit') }}
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- JS -->
+    <script src="{{ url_for('static',filename='create/vendor/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static',filename='create/js/main.js') }}"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+{% endblock create %}
