@@ -1,31 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Create event</title>
+{% extends 'layout.html' %}
+{% block create %}
 
    <!-- Font Icon -->
     <link rel="stylesheet" href="{{ url_for('static',filename='create/fonts/material-icon/css/material-design-iconic-font.min.css') }}">
 
     <!-- Main css -->
     <link rel="stylesheet" href="{{ url_for('static',filename='create/css/style.css') }}">
-</head>
+
 <body>
-
     <div class="main">
-
         <div class="container">
             <div class="booking-content">
                 <div class="booking-image">
                     <img class="booking-img" src="{{ url_for('static',filename='create/images/createEv.jpg') }}" alt="Booking Image">
+                    <br>
                     <img class="booking-img" src="{{ url_for('static',filename='create/images/cena.jpg') }}" alt="Booking Image">
                 </div>
                 <div class="booking-form">
-                    <form id="booking-form">
+                    <form method="post">
                         <h2>Organize your social event!</h2>
-                        <form method="post">
                             {{ createForm.hidden_tag() }}
                         <div class="form-group form-input">
                             <div class="controls">
@@ -35,42 +28,54 @@
                                     <div class="alert alert-danger"> {{ error }} </div>
                                 {% endfor  %}
                             </div>
-                        <div class="form-group">
-                            <div class="select-list">
-                                <select name="time" id="time" required>
-                                    <option value="minbudget">12:00-12:30</option>
-                                    <option value="mediumbudjet1">12:30-13:00 </option>
-                                    <option value="mediumbudjet2">13:00-13:30 </option>
-                                    <option value="maxbudjet">13:30-14:00</option>
-                                    <option value="minbudget">18:00-18:30</option>
-                                    <option value="mediumbudjet1">18:30-19:00 </option>
-                                    <option value="mediumbudjet2">19:30-20:00 </option>
-                                    <option value="maxbudjet">20:30-21:00</option>
-                                    <option value="minbudget">21:30-22:00</option>
-                                </select>
-                            </div>
                         </div>
-
                         <div class="form-group form-input">
-                            <input type="text" name="price" id="price" value="" required />
+                            <div class="controls">
                             <label for="price" class="form-label">Price per person</label>
-                        </div>
-                        <div class="form-group form-input">
-                            <input type="text" name="location" id="location" value="" required/>
-                            <label for="location" class="form-label">Location </label>
-                        </div>
-                        <br>
-
-                        <div class="form-group">
-                            <div class="select-list">
-                                <select name="Menu" id="menu" required>
-                                    <option value="">Menu</option>
-                                    <option value="Trad">Traditional</option>
-                                    <option value="Vege">Vegetarian</option>
-                                    <option value="Vega">Vegan </option>
-                                </select>
+                            {{ createForm.price(class='form-group form-input') }}
+                                {% for error in createForm.price.errors %}
+                                    <div class="alert alert-danger"> {{ error }} </div>
+                                {% endfor  %}
                             </div>
                         </div>
+                        <div class="form-group form-input">
+                            <div class="controls">
+                            <label for="location" class="form-label">Location</label>
+                            {{ createForm.location(class='form-group form-input') }}
+                                {% for error in createForm.location.errors %}
+                                    <div class="alert alert-danger"> {{ error }} </div>
+                                {% endfor  %}
+                            </div>
+                        </div>
+                        <div class="form-group form-input">
+                            <div class="controls">
+                            <label for="menu" class="form-label">Menu</label>
+                            {{ createForm.menu(class='form-group form-input') }}
+                                {% for error in createForm.menu.errors %}
+                                    <div class="alert alert-danger"> {{ error }} </div>
+                                {% endfor  %}
+                            </div>
+                        </div>
+                        <div class="form-group form-input">
+                            <div class="controls">
+                            <label for="partecipants" class="form-label">How many people do you want to invite?</label>
+                            <br>
+                            {{ createForm.partecipants(class='form-group form-input') }}
+                                {% for error in createForm.partecipants.errors %}
+                                    <div class="alert alert-danger"> {{ error }} </div>
+                                {% endfor  %}
+                            </div>
+                        </div>
+                        <div class="form-group form-input">
+                            <div class="controls">
+                            <label for="timetable" class="form-label">Time of your event</label>
+                            {{ createForm.timetable(class='form-group form-input') }}
+                                {% for error in createForm.timetable.errors %}
+                                    <div class="alert alert-danger"> {{ error }} </div>
+                                {% endfor  %}
+                            </div>
+                        </div>
+                       <br>
                         <div class="form-group">
                             <div class="col-2">
                                 <div class="input-group">
@@ -80,75 +85,23 @@
                                 </div>
                             </div>
                         <div/>
-
-                        <div class="form-radio">
-                            <h11>How many people do you want to invite? </h11>
-                            <label class="label-radio"> </label>
-                            <div class="radio-item-list">
-                                <span class="radio-item">
-                                    <input type="radio" name="numpeople" value="1" id="number_people_1" />
-                                    <label for="number_people_1">1</label>
-                                </span>
-                                <span class="radio-item">
-                                    <input type="radio" name="numpeople" value="2" id="number_people_2" />
-                                    <label for="number_people_2">2</label>
-                                </span>
-                                <span class="radio-item">
-                                    <input type="radio" name="numpeople" value="3" id="number_people_3" />
-                                    <label for="number_people_3">3</label>
-                                </span>
-                                <span class="radio-item active">
-                                    <input type="radio" name="numpeople" value="4" id="number_people_4" checked="checked" />
-                                    <label for="number_people_4">4</label>
-                                </span>
-                                <span class="radio-item">
-                                    <input type="radio" name="numpeople" value="5" id="number_people_5" />
-                                    <label for="number_people_5">5</label>
-                                </span>
-                                <span class="radio-item">
-                                    <input type="radio" name="numpeople" value="6" id="number_people_6" />
-                                    <label for="number_people_6">6</label>
-                                </span>
-                                <span class="radio-item">
-                                    <input type="radio" name="numpeople" value="7" id="number_people_7" />
-                                    <label for="number_people_7">7</label>
-                                </span>
-                                <span class="radio-item">
-                                    <input type="radio" name="numpeople" value="8" id="number_people_8" />
-                                    <label for="number_people_8">8</label>
-                                </span>
-                                <span class="radio-item">
-                                    <input type="radio" name="numpeople" value="9" id="number_people_9" />
-                                    <label for="number_people_2">9</label>
-                                </span>
-                                <span class="radio-item">
-                                    <input type="radio" name="numpeople" value="10" id="number_people_10" />
-                                    <label for="number_people_10">10</label>
-                                </span>
-                            </div>
-                        </div>
-
+                        <br>
                         <div class="form-group">
-                                <label>Make a presentation of yourself and a description of your Event </label>
-                                <textarea rows="5" style="width: -webkit-fill-available;" class="form-control" placeholder="Let your guests start knowing you" id="Message" required data-validation-required-message="Message"></textarea>
-                                <p class="help-block text-danger"></p>
-                            </div>
+                            <label>Make a presentation of yourself and a description of your event </label>
+                            {{createForm.description(class='form-control')}}
                         </div>
-
-                        <div class="form-submit">
+                        <br>
+                            <div id="success"></div>
+                            <!-- For success/fail messages -->
                             {{ createForm.submit(class='submit') }}
-                            {{ createForm.hidden_tag() }}
-
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-
     </div>
-
     <!-- JS -->
     <script src="{{ url_for('static',filename='create/vendor/jquery/jquery.min.js') }}"></script>
     <script src="{{ url_for('static',filename='create/js/main.js') }}"></script>
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
-</html>l>
+{% endblock create %}
