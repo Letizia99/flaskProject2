@@ -16,8 +16,8 @@ db=SQLAlchemy(app)
 bcrypt=Bcrypt(app)
 
 
-from model import User,SocialEatingEvent
-from form import formRegistration, formLogin, Contactus, CreateEvent
+from model import User,SocialEatingEvent, SharedMeal
+from form import formRegistration, formLogin, Contactus, formCreateEvent, JoinEvent, formShareMeal, formSearchMeal
 
 
 
@@ -86,18 +86,49 @@ def dashboard():
 
 @app.route('/createevent', methods=['POST', 'GET'])
 def createEvent():
-    name = None
-    createForm = CreateEvent()
-    if createForm.validate_on_submit():
-        if request.method=='POST':
-            if createForm.validate():
-                newevent = SocialEatingEvent(title=createForm.title.data, time=createForm.time.data, date=createForm.date.data, price=createForm.price.data, numpeople=createForm.partecipants.data, location=createForm.location.data, description=createForm.description.data)
-                db.session.add(newevent)
-                db.session.commit()
-                return redirect(url_for('homepage'))
+    createForm = formCreateEvent()
+    if request.method=='POST':
+        if createForm.validate_on_submit():
+            newevent = SocialEatingEvent(title=createForm.title.data, timetable=createForm.timetable.data, date=createForm.date.data, price=createForm.price.data,menu=createForm.menu.data, numpeople=createForm.partecipants.data, location=createForm.location.data, description=createForm.description.data)
+            db.session.add(newevent)
+            db.session.commit()
+            return redirect(url_for('booking'))
         flash("There is an error in your input data", category='danger')
     return render_template('create.html', createForm=createForm)
 
+@app.route('/bookevent', methods=['POST', 'GET'])
+def booking():
+    name = None
+    bookingForm = JoinEvent()
+    if bookingForm.validate_on_submit():
+        session['name'] = bookingForm.name.data
+        session['date'] = bookingForm.date.data
+        name = bookingForm.name.data
+        return redirect('dashboard')
+    return render_template('booking.html', bookingForm=bookingForm, name=name)
+
+@app.route('/share', methods=['POST', 'GET'])
+def share():
+    shareForm = formShareMeal()
+    if request.method=='POST':
+        if shareForm.validate_on_submit():
+            newmeal = SharedMeal(meal=shareForm.mealname.data, date=shareForm.date.data, price=shareForm.price.data, menu=shareForm.menu.data, location=shareForm.location.data,address=shareForm.address.data, description=shareForm.description.data)
+            db.session.add(newmeal)
+            db.session.commit()
+            return redirect(url_for('booking'))
+        flash("There is an error in your input data", category='danger')
+    return render_template('sharemeal.html', shareForm=shareForm)
+
+@app.route('/searchmeal', methods=['POST', 'GET'])
+def searchmeal():
+    name = None
+    smealForm = formSearchMeal()
+    if smealForm.validate_on_submit():
+        session['name'] = smealForm.name.data
+        session['date'] = smealForm.date.data
+        name = smealForm.name.data
+        return redirect('dashboard')
+    return render_template('SearchMeal.html', smealForm=smealForm, name=name)
 
 @app.errorhandler(404)
 def page_not_found(e):

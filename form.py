@@ -29,26 +29,44 @@ class formLogin(FlaskForm):
     submit = SubmitField('Login')
 
 
-class CreateEvent(FlaskForm):
+class formCreateEvent(FlaskForm):
     title = StringField('Event name:', validators=[DataRequired(), Length(min=2, max=20)])
-    time = StringField('Time:', validators=[DataRequired(), Length(min=2, max=20)])
-    price = StringField('Price:', validators=[DataRequired(), Length(min=2, max=5)])
+    timetable = SelectField('Time of your event', validators=[DataRequired(), Length(min=2, max=20)], choices=[(''),('Lunch'),('Dinner')])
+    price = StringField('Price:', validators=[DataRequired()])
+    menu = SelectField('Menu:', validators=[DataRequired()], choices=[(''),('Vegan'),('Vegeterian'),('Neither')])
+    date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
+    partecipants = SelectField('Number of participants:', validators=[DataRequired()], choices=[(p, str(p)) for p in range(0,11)])
+    description = StringField('Event description:', validators=[DataRequired(), Length(min=0, max=200)])
+    location = SelectField('Location:', validators=[DataRequired()], choices=[(''),('Milano'),('Torino'),('Firenze'),('Napoli'),('Genova'),('Roma'),('Venezia')])
+    submit = SubmitField('Create')
+
+class JoinEvent(FlaskForm):
+    name = StringField('Name:', validators=[DataRequired(), Length(min=2, max=20)])
+    surname = StringField('Surname:', validators=[DataRequired(), Length(min=2, max=20)])
+    time = StringField('Time:', validators=[DataRequired()])
+    price = StringField('Price:', validators=[DataRequired()])
+    location = StringField('Location:', validators=[DataRequired()])
     menu = StringField('Menu:', validators=[DataRequired()])
     date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
     participants = StringField('Number of participants:', validators=[DataRequired()])
-    description = StringField('Event description:', validators=[DataRequired(), Length(min=0, max=200)])
-    location = StringField('Location:', validators=[DataRequired(), Length(min=2, max=30)])
-    submit = SubmitField('Create')
+    submit = SubmitField('Search')
 
+class formShareMeal(FlaskForm):
+    mealname = StringField('Meal name:', validators=[DataRequired(), Length(min=2, max=20)])
+    price = StringField('Price:', validators=[DataRequired()])
+    description = StringField('Dish description:', validators=[DataRequired(), Length(min=2, max=200)])
+    menu = SelectField('Menu:', validators=[DataRequired()],choices=[(''),('Vegan'),('Vegeterian'),('Neither')])
+    date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
+    location = SelectField('City:', validators=[DataRequired()], choices=[(''),('Milano'),('Torino'),('Firenze'),('Napoli'),('Genova'),('Roma'),('Venezia')])
+    address = StringField('Address/District:', validators=[DataRequired(), Length(min=2, max=30)])
+    submit = SubmitField('Share')
 
-class ShareMeal(FlaskForm):
-    mealName = StringField('Meal name:', validators=[DataRequired(), Length(min=2, max=20)])
-    description = StringField('Event description:', validators=[DataRequired(), Length(min=2, max=200)])
-    recipe = StringField('Recipe:', validators=[DataRequired(), Length(min=2, max=500)])
-    date = StringField('Date:', validators=[DataRequired(), Length(min=2, max=20)])
-    image= FileField('file',validators=[DataRequired()])
-    uploadImage= SubmitField('upload')
-    submit = SubmitField('Create')
+class formSearchMeal(FlaskForm):
+    location = StringField('Location:', validators=[DataRequired()])
+    menu = SelectField('Menu:', validators=[DataRequired()], choices=[(''),('Vegan'),('Vegeterian'),('Neither')])
+    date = DateField('Date', format='%Y-%m-%d', validators=[DataRequired()])
+    submit=SubmitField('Search')
+
 
 class Chatform(FlaskForm):
     description = StringField('Enter your message:', validators=[DataRequired(), Length(min=1, max=200)])

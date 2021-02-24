@@ -25,9 +25,9 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(50), unique=True, nullable=False)
     password=db.Column(db.String(50),nullable=False)
     eventscreated=db.relationship('SocialEatingEvent', backref='user')
-    mealsshared=db.relationship('SharedMeals', backref='user')
+    mealsshared=db.relationship('SharedMeal', backref='user')
     eventsjoined=db.relationship('SocialEatingEvent', backref='events')
-    mealspurchased=db.relationship('SharedMeals', backref='meals')
+    mealspurchased=db.relationship('SharedMeal', backref='meals')
     followed = db.relationship('Follow', foreign_keys=[Follow.follower_id],backref=db.backref('follower', lazy='joined'),lazy='dynamic',cascade='all, delete-orphan')
     followers = db.relationship('Follow', foreign_keys=[Follow.followed_id],backref=db.backref('followed', lazy='joined'),lazy='dynamic',cascade='all, delete-orphan')
 
@@ -66,9 +66,10 @@ class SocialEatingEvent(db.Model):
     __tablename__ = 'see'
     id=db.Column(db.Integer,primary_key=True)
     title = db.Column(db.String, nullable=False)
-    time = db.Column(db.String, nullable=False)
+    timetable = db.Column(db.String, nullable=False)
     date=db.Column(db.DateTime, nullable=False)
     price = db.Column (db.Integer, nullable=False)
+    menu = db.Column(db.String, nullable=False)
     numpeople = db.Column(db.Integer, nullable=False)
     location=db.Column(db.String, nullable=False)
     description=db.Column(db.String, nullable=False)
@@ -77,13 +78,16 @@ class SocialEatingEvent(db.Model):
     expired=db.Column(db.Boolean, nullable=False, default=False)
 
 
-class SharedMeals(db.Model):
+class SharedMeal(db.Model):
     __tablename__ = 'mealsshared'
     id = db.Column(db.Integer, primary_key=True)
-    title= db.Column(db.String, nullable=False)
+    meal= db.Column(db.String, nullable=False)
+    menu = db.Column(db.String, nullable=False)
+    price = db.Column(db.Integer, nullable=False)
     date = db.Column(db.DateTime, nullable=False)
     location = db.Column(db.String, nullable=False)
-    info = db.Column(db.String, nullable=False)
+    address = db.Column(db.String, nullable=False)
+    description = db.Column(db.String, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     expired=db.Column(db.Boolean, nullable=False, default=False)
     buyer=db.relationship('User', backref='buyer')
